@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import whiteLogo from './assets/White_Logo(2).png';
 
 const links = [
   { to: '/', label: 'Home' },
@@ -16,7 +17,7 @@ export default function Navbar({ dark = true }) {
       <nav className="container-x flex items-center justify-between py-6">
         <Link to="/" className="flex items-center">
           <img
-            src="/src/assets/White_Logo(2).png"
+            src={whiteLogo}
             alt="Kami Production"
             className="h-10 w-auto"
           />
