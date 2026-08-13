@@ -1,27 +1,66 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase/config'
 import { useAuth } from '../context/AuthContext'
 
 export default function AdminLogin() {
-  const { user, loading, login } = useAuth()
+  const { user, isAdmin, loading, login, logout } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  if (!loading && user) return <Navigate to="/admin/website" replace />
+  // Already signed in as a confirmed admin — go straight to the dashboard.
+  if (!loading && user && isAdmin) return <Navigate to="/admin/website" replace />
+
+  // Signed in (e.g. from the booking portal in another tab) but NOT an admin —
+  // don't show the login form, since they're already authenticated as the wrong account.
+  if (!loading && user && !isAdmin) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-ink px-6 text-paper">
+        <div className="w-full max-w-sm text-center">
+          <div className="font-display text-lg font-semibold">
+            KAMI<span className="text-amber">.</span>PRODUCTION
+          </div>
+          <p className="eyebrow mt-2 mb-6">Admin Portal</p>
+          <p className="mb-6 text-sm text-steel">
+            The account <span className="text-paper">{user.email}</span> doesn't have admin access.
+          </p>
+          <button onClick={logout} className="btn-outline-dark">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
     setSubmitting(true)
     try {
-      await login(email, password)
+      const credential = await login(email, password)
+      const adminSnap = await getDoc(doc(db, 'admins', credential.user.uid))
+      if (!adminSnap.exists()) {
+        await logout()
+        setError('This account does not have admin access.')
+      }
+      // If it IS an admin, AuthContext picks up the new state and the
+      // redirect above takes over on the next render.
     } catch (err) {
       setError('Invalid email or password.')
     } finally {
       setSubmitting(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-ink text-paper font-mono text-xs uppercase tracking-widest">
+        Loading…
+      </div>
+    )
   }
 
   return (

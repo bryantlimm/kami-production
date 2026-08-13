@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
-import { useEffect } from 'react'
 import { auth } from '../firebase/config'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -65,11 +64,23 @@ export default function Booking() {
             <h2 className="font-display text-2xl font-semibold">Welcome, {user.email}</h2>
             <p className="mt-4 text-steel">
               Our online booking system is coming soon. In the meantime, reach out to us directly via
-              WhatsApp or Instagram on the homepage to reserve equipment, and we'll get you sorted.
+              WhatsApp or Instagram for further assistant or click "Book Now" to reserve equipment.
             </p>
-            <button onClick={() => signOut(auth)} className="btn-outline mt-8">
-              Sign Out
-            </button>
+            
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="https://sewahtkami.sewascale.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Book Now
+              </a>
+              <button onClick={() => signOut(auth)} className="btn-outline">
+                Sign Out
+              </button>
+            </div>
+
           </div>
         ) : (
           <div className="max-w-md">

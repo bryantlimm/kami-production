@@ -22,10 +22,10 @@ export default function Home() {
         <div className="container-x relative z-10 flex min-h-[92vh] flex-col justify-center pt-24 pb-16">
           <div className="eyebrow mb-6">Production Equipment Rental</div>
           <h1 className="max-w-3xl font-display text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-            {hero?.headline || 'Gear Up. Roll Out. Get It Done.'}
+            {hero?.headline || ''}
           </h1>
           <p className="mt-6 max-w-lg text-steel">
-            {hero?.subheadline || 'Kami Production supplies camera, lighting and grip equipment for film, photo and event production — reliable gear, ready when you are.'}
+            {hero?.subheadline || ''}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link to="/booking" className="btn-primary">
@@ -45,7 +45,7 @@ export default function Home() {
           <div className="md:col-span-4">
             <div className="eyebrow mb-4">About Us</div>
             <h2 className="font-display text-3xl font-semibold leading-tight">
-              {about?.shortTitle || 'Built by production people, for production people.'}
+              {about?.shortTitle || ''}
             </h2>
           </div>
           <div className="md:col-span-6 md:col-start-6">

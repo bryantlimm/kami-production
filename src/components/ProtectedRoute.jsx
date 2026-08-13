@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth()
+  const { user, isAdmin, loading } = useAuth()
 
   if (loading) {
     return (
@@ -12,7 +12,9 @@ export default function ProtectedRoute({ children }) {
     )
   }
 
-  if (!user) return <Navigate to="/admin" replace />
+  // Must be signed in AND present in the admins collection — a booking-portal
+  // account is signed in but is not an admin, so it gets sent back to /admin.
+  if (!user || !isAdmin) return <Navigate to="/admin" replace />
 
   return children
 }

@@ -28,7 +28,7 @@ export default function HeroEditor() {
         <label className="eyebrow mb-2 block">Headline</label>
         <input
           value={form.headline} onChange={(e) => setForm({ ...form, headline: e.target.value })}
-          placeholder="Gear Up. Roll Out. Get It Done."
+          placeholder=""
           className="w-full border border-line px-4 py-3 outline-none focus:border-ink"
         />
       </div>
